@@ -1,17 +1,17 @@
 from app import app
-from controllers.ingredientes_controller import *
+from controllers.ingredientes_controller_hardcode import *
 
 # Obtener todos los ingredientes
-app.route('/api/ingredientes', methods=['GET'])(obtener_ingredientes)
+app.get('/api/ingredientes')(obtener_ingredientes)
 
 # Obtener un ingrediente por ID
-app.route('/api/ingredientes/<int:id>', methods=['GET'])(obtener_ingrediente)
+app.get('/api/ingredientes/<int:id>')(obtener_ingrediente)
 
 # Crear un nuevo ingrediente
-app.route('/api/ingredientes', methods=['POST'])(crear_ingrediente)
+app.post('/api/ingredientes')(crear_ingrediente)
 
 # Actualizar un ingrediente por ID
-app.route('/api/ingredientes/<int:id>', methods=['PUT'])(actualizar_ingrediente)
+app.put('/api/ingredientes/<int:id>')(actualizar_ingrediente)
 
 # Eliminar un ingrediente por ID
-app.route('/api/ingredientes/<int:id>', methods=['DELETE'])(eliminar_ingrediente)
+app.delete('/api/ingredientes/<int:id>')(eliminar_ingrediente)
