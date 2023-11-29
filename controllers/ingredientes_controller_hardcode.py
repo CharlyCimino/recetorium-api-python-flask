@@ -1,5 +1,8 @@
 from models.ingredientes_hard_code import lista_de_ingredientes
 from flask import jsonify, request
+from werkzeug.utils import secure_filename
+from app import app
+import os
 
 def obtener_ingredientes():
     return jsonify({'ingredientes': lista_de_ingredientes})
@@ -12,13 +15,23 @@ def obtener_ingrediente(id):
         return jsonify({'error': 'Ingrediente no encontrado'}), 404
 
 def crear_ingrediente():
-    data = request.get_json()
-    print(data)
+    id = len(lista_de_ingredientes) + 1
+    nombre = request.form['nombre']
+    foto = request.files['foto']
+    color = request.form['color']
+
+    # Toma el nombre del archivo original como entrada y devuelve un nombre de archivo seguro para su almacenamiento.
+    nombre_imagen = secure_filename(foto.filename)
+    # Separa el nombre del archivo de su extensión, considerando el punto como separador.
+    nombre_base, extension = os.path.splitext(nombre_imagen)
+    # Guarda la imagen con el nombre asociado a su ID.
+    nombre_imagen = f"ing_{id}{extension}"
+    foto.save(os.path.join(app.config['FOLDER_IMG_INGREDIENTES'], nombre_imagen))
     nuevo_ingrediente = {
-        'id': len(lista_de_ingredientes) + 1,
-        'nombre': data["nombre"],
-        'foto': data["foto"],
-        'color': data["color"]
+        "id": id,
+        "nombre": nombre,
+        "foto": nombre_imagen,
+        "color": color
     }
     lista_de_ingredientes.append(nuevo_ingrediente)
     return jsonify({'ingrediente': nuevo_ingrediente}), 201
