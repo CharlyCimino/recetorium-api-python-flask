@@ -1,8 +1,11 @@
 from models.ingredientes_hard_code import lista_de_ingredientes
-from flask import jsonify, request
+from flask import jsonify, request, send_from_directory
 from werkzeug.utils import secure_filename
 from app import app
 import os
+
+# Establecer la carpeta pública del servidor que aloja las imágenes de los ingredientes
+app.config['FOLDER_IMG_INGREDIENTES'] = 'public/img/ingredientes'
 
 def obtener_ingredientes():
     return jsonify({'ingredientes': lista_de_ingredientes})
@@ -14,11 +17,15 @@ def obtener_ingrediente(id):
     else:
         return jsonify({'error': 'Ingrediente no encontrado'}), 404
 
+def obtener_img_ingrediente_por_id(filename):
+    return send_from_directory(app.config['FOLDER_IMG_INGREDIENTES'], filename)
+
 def crear_ingrediente():
     id = len(lista_de_ingredientes) + 1
     nombre = request.form['nombre']
     foto = request.files['foto']
     color = request.form['color']
+    print(request.url)
 
     # Toma el nombre del archivo original como entrada y devuelve un nombre de archivo seguro para su almacenamiento.
     nombre_imagen = secure_filename(foto.filename)
@@ -30,7 +37,7 @@ def crear_ingrediente():
     nuevo_ingrediente = {
         "id": id,
         "nombre": nombre,
-        "foto": nombre_imagen,
+        "foto": f"/{app.config['PATH_IMG_INGREDIENTES']}/{nombre_imagen}",
         "color": color
     }
     lista_de_ingredientes.append(nuevo_ingrediente)
