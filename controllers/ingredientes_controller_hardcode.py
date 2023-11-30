@@ -53,10 +53,10 @@ def actualizar_ingrediente(id):
         return jsonify({'error': 'Ingrediente no encontrado'}), 404
     
 def eliminar_ingrediente(id):
-    global ingredientes
+    global lista_de_ingredientes
     ingrediente_eliminado = get_ingrediente_by_id(id)    
     if ingrediente_eliminado:
-        ingredientes = [i for i in lista_de_ingredientes if i['id'] != id]
+        lista_de_ingredientes = [i for i in lista_de_ingredientes if i['id'] != id]
         return jsonify({'mensaje': 'Ingrediente eliminado exitosamente', 'ingrediente_eliminado': ingrediente_eliminado})
     else:
         return jsonify({'error': 'Ingrediente no encontrado'}), 404
