@@ -1,6 +1,7 @@
 ingrediente_id_counter = 25
 
 def next_id():
+    global ingrediente_id_counter
     ingrediente_id_counter += 1
     return ingrediente_id_counter
 
