@@ -1,3 +1,9 @@
+ingrediente_id_counter = 25
+
+def next_id():
+    ingrediente_id_counter += 1
+    return ingrediente_id_counter
+
 lista_de_ingredientes = [
     {"id": 1, "nombre": 'Masa', "foto": '/api/ingredientes/img/ing_1.jpg', "color": '#EBE6D8'},
     {"id": 2, "nombre": 'Tomate', "foto": '/api/ingredientes/img/ing_2.jpg', "color": '#EA1A03'},

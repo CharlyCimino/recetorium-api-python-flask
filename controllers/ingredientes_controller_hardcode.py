@@ -1,4 +1,4 @@
-from models.ingredientes_hard_code import lista_de_ingredientes
+from models.ingredientes_hard_code import lista_de_ingredientes, next_id
 from flask import jsonify, request, send_from_directory
 from werkzeug.utils import secure_filename
 from app import app
@@ -21,7 +21,7 @@ def obtener_img_ingrediente_por_id(filename):
     return send_from_directory(app.config['FOLDER_IMG_INGREDIENTES'], filename)
 
 def crear_ingrediente():
-    id = len(lista_de_ingredientes) + 1
+    id = next_id()
     nombre = request.form['nombre']
     foto = request.files['foto']
     color = request.form['color']
